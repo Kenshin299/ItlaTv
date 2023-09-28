@@ -15,7 +15,7 @@
         public Producer? Producer { get; set; } 
 
         public ICollection<Genre>? Genres { get; set; }
-        public ICollection<SeriesGenre> SeriesGenres { get; set; }
-
+        public ICollection<SeriesGenre>? SeriesGenres { get; set; }
+        public string VideoLink { get; set; }
     }
 }
