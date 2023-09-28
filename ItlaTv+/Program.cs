@@ -1,3 +1,5 @@
+using Application.Repositories;
+using Application.Services;
 using Database.Contexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -5,7 +7,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ItlaTvDbContext>(options => options.UseSqlServer(connectionString)); 
+builder.Services.AddDbContext<ItlaTvDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddTransient<SeriesRepository>();
+builder.Services.AddTransient<ProducerRepository>();
+builder.Services.AddTransient<GenreRepository>();
+
+builder.Services.AddScoped<SeriesService>();
+builder.Services.AddScoped<ProducerService>();
+builder.Services.AddScoped<GenreService>();
+
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

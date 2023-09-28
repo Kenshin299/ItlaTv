@@ -6,6 +6,6 @@ namespace Application.ViewModels
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Series>? Series { get; set; }
+        public ICollection<Series>? Series { get; set; }
     }
 }
