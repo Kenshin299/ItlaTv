@@ -7,7 +7,7 @@ namespace Application.ViewModels
         public int Id { get; set; }
         public string Name { get; set; }
         public string ImagePath { get; set; }
-        public List<Genre>? Genres { get; set; }
+        public ICollection<Genre>? Genres { get; set; }
         public Producer? Producer { get; set; }
         public string VideoLink { get; set; }
     }

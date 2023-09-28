@@ -16,6 +16,21 @@ namespace Application.Services
             _repository = repository;
         }
 
+        private List<SeriesGenre> GenreHandling(SaveSerieViewModel vm)
+        {
+            var selectedGenres = new List<SeriesGenre>
+            {
+                new SeriesGenre { GenreId = vm.PrimaryGenreId }
+            };
+
+            if (vm.SecondaryGenreId != 0)
+            {
+                selectedGenres.Add(new SeriesGenre { GenreId = vm.SecondaryGenreId });
+            }
+
+            return selectedGenres;
+        }
+
         public async Task Add(SaveSerieViewModel vm)
         {
             Series series = new()
@@ -25,6 +40,10 @@ namespace Application.Services
                 ProducerId = vm.ProducerId,
                 VideoLink = vm.VideoLink
             };
+
+            var selectedGenres = GenreHandling(vm);
+
+            series.SeriesGenres = selectedGenres;
 
             await _repository.AddAsync(series);
         }
@@ -39,6 +58,10 @@ namespace Application.Services
                 ProducerId = vm.ProducerId,
                 VideoLink = vm.VideoLink
             };
+
+            var selectedGenres = GenreHandling(vm);
+
+            series.SeriesGenres = selectedGenres;
 
             await _repository.UpdateAsync(series);
         }
@@ -61,6 +84,19 @@ namespace Application.Services
                 VideoLink = series.VideoLink
             };
 
+            if (series.SeriesGenres != null)
+            {
+                var genres = series.SeriesGenres.Select(sg => sg.GenreId).ToList();
+                if (genres.Count > 0)
+                {
+                    vm.PrimaryGenreId = genres[0];
+                }
+                if (genres.Count > 1)
+                {
+                    vm.SecondaryGenreId = genres[1];
+                }
+            }
+
             return vm;
         }
 
@@ -73,7 +109,8 @@ namespace Application.Services
                 Name = s.Name,
                 ImagePath = s.ImagePath,
                 Producer = s.Producer,
-                VideoLink = s.VideoLink
+                VideoLink = s.VideoLink,
+                Genres = s.Genres
             }).ToList();
         }
     }
