@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Database.Models
+﻿namespace Database.Models
 {
     public class Producer
     {
@@ -12,6 +6,6 @@ namespace Database.Models
 
         public string Name { get; set; }
 
-        public List<Series> Series { get; set; }
+        public ICollection<Series>? Series { get; set; }
     }
 }
