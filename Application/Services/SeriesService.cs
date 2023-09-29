@@ -114,11 +114,11 @@ namespace Application.Services
             }).ToList();
         }
 
-        public async Task<List<SeriesViewModel>> FilterByProducer(int producerId)
+        public async Task<List<SeriesViewModel>> FilterByProducers(int[] producerIds)
         {
             var seriesList = await _repository.GetAllAsync();
             return seriesList
-                .Where(s => s.ProducerId == producerId)
+                .Where(s => producerIds.Contains(s.ProducerId))
                 .Select(s => new SeriesViewModel
                 {
                     Id = s.Id,
@@ -131,11 +131,16 @@ namespace Application.Services
                 .ToList();
         }
 
-        public async Task<List<SeriesViewModel>> SearchByName(string seriesName)
+        public async Task<List<SeriesViewModel>> SearchByName(string searchTerm)
         {
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                return new List<SeriesViewModel>();
+            }
             var seriesList = await _repository.GetAllAsync();
+
             return seriesList
-                .Where(s => s.Name.Contains(seriesName))
+                .Where(s => s.Name.ToLower().Contains(searchTerm.ToLower()))
                 .Select(s => new SeriesViewModel
                 {
                     Id = s.Id,
