@@ -36,8 +36,10 @@ namespace Application.Repositories
         public async Task<List<Series>> GetAllAsync()
         {
             return await _dbContext
-                 .Set<Series>()
-                 .ToListAsync();
+                .Set<Series>()
+                .Include(s => s.Genres)   
+                .Include(s => s.Producer) 
+                .ToListAsync();
         }
 
         public async Task<Series> GetByIdAsync(int id)

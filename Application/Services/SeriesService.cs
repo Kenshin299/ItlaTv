@@ -113,5 +113,39 @@ namespace Application.Services
                 Genres = s.Genres
             }).ToList();
         }
+
+        public async Task<List<SeriesViewModel>> FilterByProducer(int producerId)
+        {
+            var seriesList = await _repository.GetAllAsync();
+            return seriesList
+                .Where(s => s.ProducerId == producerId)
+                .Select(s => new SeriesViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    ImagePath = s.ImagePath,
+                    Producer = s.Producer,
+                    VideoLink = s.VideoLink,
+                    Genres = s.Genres
+                })
+                .ToList();
+        }
+
+        public async Task<List<SeriesViewModel>> SearchByName(string seriesName)
+        {
+            var seriesList = await _repository.GetAllAsync();
+            return seriesList
+                .Where(s => s.Name.Contains(seriesName))
+                .Select(s => new SeriesViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    ImagePath = s.ImagePath,
+                    Producer = s.Producer,
+                    VideoLink = s.VideoLink,
+                    Genres = s.Genres
+                })
+                .ToList();
+        }
     }
 }
